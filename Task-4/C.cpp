@@ -58,38 +58,56 @@ int LIS(vector<int>& a) {
     return ans;
 }
 
-
 void Yarab_ACC(){
+  
    int t;
 cin>>t;
 while(t--){
-
-    
- int n;
-cin>>n;
+    int n,x;
+cin>>n>>x;
 vector<int>v(n);
+map<int,int>freq;
  for(int i=0;i<n;i++){
   cin>>v[i];  }
-  int l=0,r=n-1;
-  int sum1=0,sum2=0;
-int ans=0;
-  while(l<=r){
-   if(sum1<=sum2){
-sum1+=v[l];
-l++;
-
-   }
-   else{
-    sum2+=v[r];
-    r--;
-    
-   }
-    if(sum1==sum2) {
-        ans=l+(n-r-1);
+  for(int i=0;i<n;i++){
+    freq[v[i]]++;
   }
+  vector<int>v2=v;
+  sort(all(v));
+  v.erase(unique(all(v)),v.end());
+/*
+ for(auto c:v){
+    cout<<freq[c]<<' ';
+  }
+  cout<<endl;
+*/ 
+bool ok=0;
 
-}
-cout<<ans<<endl;
+ for(auto c:v){
+ if(freq[c]%x!=0){
+    ok=1;
+    break;
+ }
+ freq[c]/=x;
+  }
+  if(ok){
+    cout<<0<<endl;
+  }
+  else{
+  
+    int l=0;
+    int cnt=0;
+    map<int,int>mp;
+   for(int i=0;i<n;i++){
+    mp[v2[i]]++;
+    while(mp[v2[i]]>freq[v2[i]]){
+        mp[v2[l]]--;
+        l++;
+    }
+    cnt+=(i-l+1);
+   }
+    cout<<cnt<<endl;
+  }
 }
 }
 signed main() {
